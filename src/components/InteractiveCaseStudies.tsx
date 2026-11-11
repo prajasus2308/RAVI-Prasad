@@ -45,85 +45,99 @@ export const InteractiveCaseStudies: React.FC<InteractiveCaseStudiesProps> = ({
   };
 
   return (
-    <section id="projects" className="py-20 bg-[#0A1120] border-b border-slate-800/70">
-      <div className="max-w-6xl mx-auto px-6 lg:px-8 space-y-20">
+    <section
+      id="projects"
+      aria-labelledby="projects-heading"
+      className="py-14 sm:py-16 md:py-20 bg-[#0A1120] border-b border-slate-800/80"
+    >
+      <div className="responsive-container space-y-16 md:space-y-20">
         {/* =================================================================
             PART A: OFFICIAL STEEL PLANT PROFILES & PHOTOGRAPHS
-            (At the bottom of each official profile card, ONLY "View Intended Website")
+            Grid Breakpoints: 1 col (<480px) -> 2 cols (480px/768px) -> 4 cols (1024px)
         ================================================================= */}
         {companyPlantsGallery.length > 0 && (
           <div>
-            <div className="mb-10">
-              <p className="text-xs font-mono tracking-wider text-amber-500 mb-2">
+            <div className="mb-8 md:mb-10">
+              <p className="text-xs font-mono tracking-wider text-amber-400 mb-2">
                 04A. OFFICIAL EMPLOYER PROFILES &amp; PLANT PHOTOGRAPHS
               </p>
               <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-50">
                 Integrated Steel Organizations &amp; Plant Facilities
               </h2>
-              <p className="mt-2 text-sm sm:text-base text-slate-400 max-w-2xl leading-relaxed">
+              <p className="mt-2 text-sm md:text-base text-slate-200 max-w-2xl leading-relaxed">
                 Authentic plant photographs and official corporate portals for the 8 integrated iron and steel
                 organizations across Ravi Prasad&apos;s career.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
               {companyPlantsGallery.map((plant) => (
-                <div
+                <article
                   key={plant.id}
-                  className="rounded-2xl bg-[#111A2E]/90 border border-slate-800 hover:border-slate-700 transition-colors overflow-hidden flex flex-col justify-between group"
+                  className="rounded-2xl bg-[#111C33] border border-slate-700/80 hover:border-slate-600 transition-colors overflow-hidden flex flex-col justify-between group"
                 >
                   <div>
-                    {/* Clean Plant Photograph Header */}
-                    <div className="relative h-44 bg-slate-950 border-b border-slate-800/80 overflow-hidden">
+                    {/* Adaptive Plant Photograph Header with Fixed 16:10 Aspect Ratio */}
+                    <div className="relative aspect-[16/10] w-full bg-slate-950 border-b border-slate-800 overflow-hidden">
                       <img
                         src={plant.plantPhotoUrl}
                         alt={`${plant.organization} – ${plant.location}`}
-                        className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                        width={800}
+                        height={500}
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-full aspect-[16/10] object-cover object-center group-hover:scale-105 transition-transform duration-300"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#111A2E] via-slate-950/20 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#111C33] via-slate-950/20 to-transparent" />
                       {plant.companyLogoUrl && (
-                        <div className="absolute top-3 left-3.5 w-9 h-9 rounded-lg bg-white p-1 border border-slate-700/80 shadow-md flex items-center justify-center">
+                        <div className="absolute top-3 left-3.5 w-10 h-10 aspect-square rounded-lg bg-white p-1 border border-slate-700 shadow-md flex items-center justify-center">
                           <img
                             src={plant.companyLogoUrl}
                             alt={`${plant.organization} Logo`}
+                            width={40}
+                            height={40}
+                            loading="lazy"
+                            decoding="async"
                             className="max-w-full max-h-full object-contain"
                           />
                         </div>
                       )}
                       <div className="absolute bottom-2.5 left-3.5">
-                        <span className="text-[11px] font-mono text-slate-200 bg-slate-950/80 px-2 py-0.5 rounded border border-slate-800">
+                        <span className="text-[11px] font-mono text-slate-100 bg-slate-950/90 px-2.5 py-0.5 rounded border border-slate-700">
                           {plant.location}
                         </span>
                       </div>
                     </div>
 
                     {/* Clean Profile Body */}
-                    <div className="p-5 space-y-2">
-                      <div className="text-[11px] font-mono text-amber-400">{plant.tenure}</div>
+                    <div className="p-4 sm:p-5 space-y-2">
+                      <div className="text-xs font-mono text-amber-400 font-semibold">
+                        {plant.tenure}
+                      </div>
                       <h3 className="text-base font-bold text-slate-50 leading-snug">
                         {plant.organization}
                       </h3>
-                      <div className="text-xs font-medium text-slate-300">{plant.roleHeld}</div>
-                      <p className="text-xs text-slate-400 leading-relaxed line-clamp-3">
+                      <div className="text-xs font-semibold text-slate-200">{plant.roleHeld}</div>
+                      <p className="text-xs text-slate-300 leading-relaxed line-clamp-3">
                         {plant.facilityHighlights}
                       </p>
                     </div>
                   </div>
 
-                  {/* Bottom Action: ONLY a single button "View Intended Website" */}
-                  <div className="px-5 pb-5 pt-2">
+                  {/* Bottom Action: ONLY a single touch-friendly button "View Intended Website" */}
+                  <div className="px-4 sm:px-5 pb-4 sm:pb-5 pt-2">
                     <a
                       href={plant.officialWebsite}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-amber-500 text-slate-950 text-xs font-semibold hover:bg-amber-400 transition-colors"
+                      className="w-full min-h-[44px] inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-amber-400 text-slate-950 text-xs font-bold hover:bg-amber-300 transition-colors"
                     >
-                      <Globe className="w-3.5 h-3.5" />
+                      <Globe className="w-4 h-4" />
                       <span>View Intended Website</span>
-                      <ArrowUpRight className="w-3.5 h-3.5" />
+                      <ArrowUpRight className="w-4 h-4" />
                     </a>
                   </div>
-                </div>
+                </article>
               ))}
             </div>
           </div>
@@ -131,24 +145,32 @@ export const InteractiveCaseStudies: React.FC<InteractiveCaseStudiesProps> = ({
 
         {/* =================================================================
             PART B: INTERACTIVE EXPANDABLE PROJECTS & CASE STUDIES
+            Grid Breakpoints: 1 col (<1024px) -> 2 cols (>=1024px)
         ================================================================= */}
         <div>
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-5 mb-8 md:mb-10">
             <div>
-              <p className="text-xs font-mono tracking-wider text-amber-500 mb-2">
+              <p className="text-xs font-mono tracking-wider text-amber-400 mb-2">
                 04B. APPLIED ENGINEERING PORTFOLIO
               </p>
-              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-50">
+              <h2
+                id="projects-heading"
+                className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-50"
+              >
                 Projects &amp; Professional Case Studies
               </h2>
-              <p className="mt-2 text-sm sm:text-base text-slate-400 max-w-2xl leading-relaxed">
-                Select any project card to expand the technical challenge, engineering approach, implemented solution,
-                and verified measurable results.
+              <p className="mt-2 text-sm md:text-base text-slate-200 max-w-2xl leading-relaxed">
+                Tap or click any project card to expand the technical challenge, engineering approach, implemented
+                solution, and verified measurable results.
               </p>
             </div>
 
-            {/* Clean Category Filter Tabs */}
-            <div className="flex flex-wrap items-center gap-1.5 p-1 bg-slate-900/90 border border-slate-800 rounded-xl shrink-0">
+            {/* Touch-Friendly Category Filter Tabs */}
+            <div
+              role="group"
+              aria-label="Filter case studies by engineering category"
+              className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-1.5 p-1.5 bg-slate-900/95 border border-slate-700/80 rounded-xl shrink-0"
+            >
               {[
                 'All',
                 'Operations',
@@ -159,11 +181,12 @@ export const InteractiveCaseStudies: React.FC<InteractiveCaseStudiesProps> = ({
                 <button
                   key={cat}
                   type="button"
+                  aria-pressed={selectedCategory === cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors whitespace-nowrap cursor-pointer ${
+                  className={`min-h-[44px] px-3 py-2 text-xs font-medium rounded-lg transition-colors whitespace-nowrap cursor-pointer ${
                     selectedCategory === cat
-                      ? 'bg-amber-500 text-slate-950 font-semibold'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-amber-400 text-slate-950 font-bold'
+                      : 'text-slate-200 hover:text-white hover:bg-slate-800/70'
                   }`}
                 >
                   {cat === 'All' ? `All (${caseStudies.length})` : cat}
@@ -173,7 +196,7 @@ export const InteractiveCaseStudies: React.FC<InteractiveCaseStudiesProps> = ({
           </div>
 
           {/* Interactive Expandable Case Study Cards Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6 items-start">
             {filtered.map((cs) => {
               const isExpanded = !!expandedCards[cs.id];
               const currentVisual = visualMode[cs.id] || 'photo';
@@ -181,33 +204,41 @@ export const InteractiveCaseStudies: React.FC<InteractiveCaseStudiesProps> = ({
               return (
                 <article
                   key={cs.id}
-                  className={`rounded-2xl bg-[#111A2E]/90 border transition-all duration-200 overflow-hidden ${
+                  className={`rounded-2xl bg-[#111C33] border transition-all duration-200 overflow-hidden ${
                     isExpanded
-                      ? 'border-amber-500/50 shadow-lg'
-                      : 'border-slate-800 hover:border-slate-700'
+                      ? 'border-amber-400/60 shadow-xl'
+                      : 'border-slate-700/80 hover:border-slate-600'
                   }`}
                 >
-                  {/* Visual Media Header */}
-                  <div className="relative h-56 bg-slate-950 border-b border-slate-800 overflow-hidden">
+                  {/* Adaptive Visual Media Header with Fixed 16:10 Aspect Ratio */}
+                  <div className="relative aspect-[16/10] w-full bg-slate-950 border-b border-slate-800 overflow-hidden">
                     {currentVisual === 'photo' ? (
                       <>
                         <img
                           src={cs.image}
                           alt={cs.title}
-                          className="w-full h-full object-cover object-center opacity-90 transition-transform duration-300"
+                          width={960}
+                          height={600}
+                          loading="lazy"
+                          decoding="async"
+                          className="w-full h-full aspect-[16/10] object-cover object-center opacity-95 transition-transform duration-300"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#111A2E] via-[#111A2E]/25 to-transparent" />
-                        <div className="absolute bottom-3 left-4 right-4 flex items-center gap-2 z-10">
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#111C33] via-[#111C33]/25 to-transparent" />
+                        <div className="absolute bottom-3 left-3.5 right-3.5 flex items-center gap-2 z-10">
                           {cs.companyLogoUrl && (
-                            <div className="w-7 h-7 rounded bg-white p-0.5 border border-slate-700 flex items-center justify-center shrink-0">
+                            <div className="w-8 h-8 aspect-square rounded bg-white p-0.5 border border-slate-700 flex items-center justify-center shrink-0">
                               <img
                                 src={cs.companyLogoUrl}
                                 alt={cs.companyWebsiteLabel}
+                                width={32}
+                                height={32}
+                                loading="lazy"
+                                decoding="async"
                                 className="max-w-full max-h-full object-contain"
                               />
                             </div>
                           )}
-                          <span className="text-[11px] font-mono text-slate-200 bg-slate-950/85 px-2.5 py-1 rounded border border-slate-800/90 truncate">
+                          <span className="text-[11px] font-mono text-slate-100 bg-slate-950/90 px-2.5 py-1 rounded border border-slate-700 truncate">
                             {cs.imageCaption}
                           </span>
                         </div>
@@ -218,31 +249,31 @@ export const InteractiveCaseStudies: React.FC<InteractiveCaseStudiesProps> = ({
                       </div>
                     )}
 
-                    {/* Top Media Controls Bar */}
-                    <div className="absolute top-3 left-4 right-4 flex items-center justify-between gap-2 z-10">
-                      <div className="flex items-center gap-1 p-1 rounded-lg bg-slate-950/90 border border-slate-800 backdrop-blur-sm">
+                    {/* Top Media Controls Bar (Touch-Friendly) */}
+                    <div className="absolute top-3 left-3.5 right-3.5 flex items-center justify-between gap-2 z-10">
+                      <div className="flex items-center gap-1 p-1 rounded-xl bg-slate-950/90 border border-slate-700 backdrop-blur-sm">
                         <button
                           type="button"
                           onClick={(e) => setCardVisualMode(cs.id, 'photo', e)}
-                          className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded-md transition-colors whitespace-nowrap cursor-pointer ${
+                          className={`min-h-[36px] inline-flex items-center gap-1.5 px-3 py-1 text-xs font-medium rounded-lg transition-colors whitespace-nowrap cursor-pointer ${
                             currentVisual === 'photo'
-                              ? 'bg-amber-500 text-slate-950 font-semibold'
-                              : 'text-slate-300 hover:text-white'
+                              ? 'bg-amber-400 text-slate-950 font-bold'
+                              : 'text-slate-200 hover:text-white'
                           }`}
                         >
-                          <ImageIcon className="w-3 h-3" />
+                          <ImageIcon className="w-3.5 h-3.5" />
                           Photograph
                         </button>
                         <button
                           type="button"
                           onClick={(e) => setCardVisualMode(cs.id, 'diagram', e)}
-                          className={`inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded-md transition-colors whitespace-nowrap cursor-pointer ${
+                          className={`min-h-[36px] inline-flex items-center gap-1.5 px-3 py-1 text-xs font-medium rounded-lg transition-colors whitespace-nowrap cursor-pointer ${
                             currentVisual === 'diagram'
-                              ? 'bg-amber-500 text-slate-950 font-semibold'
-                              : 'text-slate-300 hover:text-white'
+                              ? 'bg-amber-400 text-slate-950 font-bold'
+                              : 'text-slate-200 hover:text-white'
                           }`}
                         >
-                          <Cpu className="w-3 h-3" />
+                          <Cpu className="w-3.5 h-3.5" />
                           Schematic
                         </button>
                       </div>
@@ -253,94 +284,105 @@ export const InteractiveCaseStudies: React.FC<InteractiveCaseStudiesProps> = ({
                           e.stopPropagation();
                           onInspectModal(cs);
                         }}
-                        className="p-1.5 text-slate-300 hover:text-white bg-slate-950/90 border border-slate-700 rounded-lg cursor-pointer"
+                        className="min-h-[40px] min-w-[40px] flex items-center justify-center text-slate-200 hover:text-white bg-slate-950/90 border border-slate-700 rounded-xl cursor-pointer"
                         title="Open Fullscreen Lightbox"
-                        aria-label="Open Fullscreen Lightbox"
+                        aria-label={`Open fullscreen view for ${cs.title}`}
                       >
-                        <Maximize2 className="w-3.5 h-3.5" />
+                        <Maximize2 className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
 
-                  {/* Clickable Card Summary Header */}
-                  <div onClick={() => toggleCard(cs.id)} className="p-6 cursor-pointer space-y-3">
-                    <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-400">
+                  {/* Touch-Friendly Collapsible Card Summary Header */}
+                  <button
+                    type="button"
+                    onClick={() => toggleCard(cs.id)}
+                    aria-expanded={isExpanded}
+                    aria-controls={`case-study-panel-${cs.id}`}
+                    className="w-full text-left p-4 sm:p-5 md:p-6 cursor-pointer space-y-3"
+                  >
+                    <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-300">
                       <span className="text-amber-400 font-semibold">CASE {cs.number}</span>
                       <span aria-hidden="true">·</span>
                       <span>{cs.category}</span>
                       <span aria-hidden="true">·</span>
-                      <span className="text-slate-300">{cs.plantContext}</span>
+                      <span className="text-slate-200">{cs.plantContext}</span>
                     </div>
 
                     <div className="flex items-start justify-between gap-4">
-                      <h3 className="text-lg sm:text-xl font-bold text-slate-50 leading-snug">
+                      <h3 className="text-base sm:text-lg md:text-xl font-bold text-slate-50 leading-snug">
                         {cs.title}
                       </h3>
-                      <button
-                        type="button"
-                        aria-label={isExpanded ? 'Collapse case study' : 'Expand case study'}
-                        className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-amber-400 shrink-0 mt-0.5 cursor-pointer"
-                      >
+                      <div className="min-h-[40px] min-w-[40px] flex items-center justify-center rounded-xl bg-slate-900 border border-slate-700 text-amber-400 shrink-0 mt-0.5">
                         {isExpanded ? (
                           <ChevronUp className="w-4 h-4" />
                         ) : (
                           <ChevronDown className="w-4 h-4" />
                         )}
-                      </button>
+                      </div>
                     </div>
 
-                    <p className="text-sm text-slate-300 leading-relaxed">{cs.overview}</p>
-                  </div>
+                    <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">{cs.overview}</p>
+                  </button>
 
                   {/* Expandable Detailed Dossier */}
                   {isExpanded && (
-                    <div className="px-6 pb-4 pt-2 border-t border-slate-800/80 space-y-3.5">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                        <div className="p-4 rounded-xl bg-slate-950/70 border border-slate-800/90 space-y-1">
-                          <div className="text-[11px] font-mono text-amber-400">
+                    <div
+                      id={`case-study-panel-${cs.id}`}
+                      className="px-4 sm:px-5 md:px-6 pb-4 pt-2 border-t border-slate-800 space-y-3.5"
+                    >
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                        <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1">
+                          <div className="text-[11px] font-mono text-amber-400 font-semibold">
                             01. TECHNICAL CHALLENGE
                           </div>
-                          <p className="text-xs text-slate-300 leading-relaxed">{cs.challenge}</p>
+                          <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
+                            {cs.challenge}
+                          </p>
                         </div>
 
-                        <div className="p-4 rounded-xl bg-slate-950/70 border border-slate-800/90 space-y-1">
-                          <div className="text-[11px] font-mono text-amber-400">
+                        <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1">
+                          <div className="text-[11px] font-mono text-amber-400 font-semibold">
                             02. ENGINEERING APPROACH
                           </div>
-                          <p className="text-xs text-slate-300 leading-relaxed">{cs.approach}</p>
+                          <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
+                            {cs.approach}
+                          </p>
                         </div>
                       </div>
 
-                      <div className="p-4 rounded-xl bg-slate-950/70 border border-slate-800/90 space-y-1">
-                        <div className="text-[11px] font-mono text-amber-400">
+                      <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1">
+                        <div className="text-[11px] font-mono text-amber-400 font-semibold">
                           03. IMPLEMENTED SOLUTION
                         </div>
-                        <p className="text-xs text-slate-200 leading-relaxed">{cs.solution}</p>
+                        <p className="text-xs sm:text-sm text-slate-100 leading-relaxed">
+                          {cs.solution}
+                        </p>
                       </div>
 
-                      <div className="p-4 rounded-xl bg-slate-950 border border-amber-500/40 space-y-1.5">
-                        <div className="flex items-center gap-1.5 text-[11px] font-mono text-emerald-400">
-                          <CheckCircle2 className="w-3.5 h-3.5" />
+                      <div className="p-4 rounded-xl bg-slate-950 border border-amber-400/50 space-y-1.5">
+                        <div className="flex items-center gap-1.5 text-[11px] font-mono text-emerald-400 font-semibold">
+                          <CheckCircle2 className="w-4 h-4" />
                           <span>04. MEASURABLE RESULTS</span>
                         </div>
-                        <p className="text-xs text-slate-100 font-medium leading-relaxed">
+                        <p className="text-xs sm:text-sm text-white font-medium leading-relaxed">
                           {cs.measurableResults}
                         </p>
                       </div>
                     </div>
                   )}
 
-                  {/* Bottom Card Action: Single "View Intended Website" Button */}
-                  <div className="px-6 pb-6 pt-1">
+                  {/* Bottom Card Action: Single Touch-Friendly "View Intended Website" Button */}
+                  <div className="px-4 sm:px-5 md:px-6 pb-5 sm:pb-6 pt-1">
                     <a
                       href={cs.companyWebsite}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-200 text-xs font-semibold hover:bg-amber-500 hover:text-slate-950 hover:border-amber-500 transition-colors"
+                      className="w-full min-h-[44px] inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-100 text-xs font-bold hover:bg-amber-400 hover:text-slate-950 hover:border-amber-400 transition-colors"
                     >
-                      <Globe className="w-3.5 h-3.5" />
+                      <Globe className="w-4 h-4" />
                       <span>View Intended Website</span>
-                      <ArrowUpRight className="w-3.5 h-3.5" />
+                      <ArrowUpRight className="w-4 h-4" />
                     </a>
                   </div>
                 </article>

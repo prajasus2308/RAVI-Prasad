@@ -92,26 +92,30 @@ export const PlantWeatherTelemetry: React.FC<PlantWeatherTelemetryProps> = ({
   };
 
   return (
-    <section id="weather-telemetry" className="bg-[#080E1B] border-b border-slate-800/70">
-      <div className="max-w-6xl mx-auto px-6 lg:px-8 py-4">
+    <section
+      id="weather-telemetry"
+      aria-label="Live Plant Weather and Blast Moisture Telemetry"
+      className="bg-[#080E1B] border-b border-slate-800/80"
+    >
+      <div className="responsive-container py-3.5 sm:py-4">
         {/* Sleek Minimal Summary Strip */}
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div className="flex flex-wrap items-center gap-3 text-xs">
-            <span className="inline-flex items-center gap-1.5 font-mono text-amber-400 font-medium">
-              <CloudSun className="w-4 h-4" />
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs">
+            <span className="inline-flex items-center gap-1.5 font-mono text-amber-400 font-semibold">
+              <CloudSun className="w-4 h-4 shrink-0" />
               <span>LIVE PLANT WEATHER API</span>
             </span>
             {weather && (
               <>
-                <span className="text-slate-600">·</span>
-                <span className="text-slate-200 font-medium">{weather.locationName}</span>
-                <span className="text-slate-600">·</span>
-                <span className="font-mono text-slate-300">{weather.temperatureC.toFixed(1)} °C</span>
-                <span className="text-slate-600">·</span>
-                <span className="font-mono text-slate-300">RH {weather.relativeHumidityPct}%</span>
-                <span className="text-slate-600">·</span>
-                <span className="font-mono text-amber-400">
-                  Blast Moisture: {weather.blastMoistureGPerNm3.toFixed(1)} g/Nm³
+                <span aria-hidden="true" className="text-slate-600">·</span>
+                <span className="text-white font-semibold">{weather.locationName}</span>
+                <span aria-hidden="true" className="text-slate-600">·</span>
+                <span className="font-mono text-slate-200">{weather.temperatureC.toFixed(1)} °C</span>
+                <span aria-hidden="true" className="text-slate-600">·</span>
+                <span className="font-mono text-slate-200">RH {weather.relativeHumidityPct}%</span>
+                <span aria-hidden="true" className="text-slate-600">·</span>
+                <span className="font-mono text-amber-400 font-semibold">
+                  Moisture: {weather.blastMoistureGPerNm3.toFixed(1)} g/Nm³
                 </span>
               </>
             )}
@@ -120,32 +124,38 @@ export const PlantWeatherTelemetry: React.FC<PlantWeatherTelemetryProps> = ({
           {onToggleOpen && (
             <button
               type="button"
+              aria-expanded={isOpen}
               onClick={onToggleOpen}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-300 hover:text-white cursor-pointer"
+              className="min-h-[44px] inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-semibold text-slate-100 hover:bg-slate-800 cursor-pointer shrink-0"
             >
               <span>{isOpen ? 'Hide Weather Telemetry' : 'Inspect Plant Weather API'}</span>
-              {isOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+              {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
             </button>
           )}
         </div>
 
         {/* Expanded Live Plant Weather Telemetry Details */}
         {isOpen && weather && (
-          <div className="mt-4 pt-4 border-t border-slate-800/80 space-y-4">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div className="text-xs text-slate-400">
+          <div className="mt-4 pt-4 border-t border-slate-800 space-y-4">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+              <div className="text-xs text-slate-200">
                 Select integrated steel plant hub for live atmospheric &amp; cold-blast moisture telemetry:
               </div>
-              <div className="flex flex-wrap items-center gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800">
+              <div
+                role="group"
+                aria-label="Select steel plant location"
+                className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-1.5 bg-slate-950 p-1.5 rounded-xl border border-slate-800"
+              >
                 {PLANT_HUBS.map((hub) => (
                   <button
                     key={hub.key}
                     type="button"
+                    aria-pressed={selectedCity === hub.key}
                     onClick={() => setSelectedCity(hub.key)}
-                    className={`px-2.5 py-1 text-xs font-medium rounded-lg transition-colors whitespace-nowrap cursor-pointer ${
+                    className={`min-h-[40px] px-3 py-1.5 text-xs font-medium rounded-lg transition-colors whitespace-nowrap cursor-pointer ${
                       selectedCity === hub.key
-                        ? 'bg-amber-500 text-slate-950 font-semibold'
-                        : 'text-slate-400 hover:text-slate-200'
+                        ? 'bg-amber-400 text-slate-950 font-bold'
+                        : 'text-slate-200 hover:text-white'
                     }`}
                   >
                     {hub.label}
@@ -155,57 +165,58 @@ export const PlantWeatherTelemetry: React.FC<PlantWeatherTelemetryProps> = ({
                   type="button"
                   onClick={() => fetchWeather(selectedCity)}
                   disabled={loading}
-                  title="Refresh live weather telemetry"
-                  className="p-1.5 text-slate-400 hover:text-white rounded-lg cursor-pointer"
+                  aria-label="Refresh live weather telemetry"
+                  className="min-h-[40px] min-w-[40px] flex items-center justify-center text-slate-200 hover:text-white rounded-lg cursor-pointer"
                 >
-                  <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-amber-400' : ''}`} />
+                  <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-amber-400' : ''}`} />
                 </button>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-              <div className="p-3.5 rounded-xl bg-slate-950/90 border border-slate-800/90">
-                <div className="flex items-center justify-between text-xs text-slate-400">
+            {/* Grid Breakpoints: 1 col (<480px) -> 2 cols (480px) -> 3 cols (768px) -> 5 cols (1024px) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+              <div className="p-3.5 rounded-xl bg-slate-950/90 border border-slate-800">
+                <div className="flex items-center justify-between text-xs text-slate-300">
                   <span>Ambient Temp</span>
-                  <Thermometer className="w-3.5 h-3.5 text-amber-500" />
+                  <Thermometer className="w-4 h-4 text-amber-400" />
                 </div>
-                <div className="text-lg font-bold font-mono tabular-nums text-slate-100 mt-1">
+                <div className="text-lg font-bold font-mono tabular-nums text-white mt-1">
                   {weather.temperatureC.toFixed(1)} °C
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-slate-950/90 border border-slate-800/90">
-                <div className="flex items-center justify-between text-xs text-slate-400">
+              <div className="p-3.5 rounded-xl bg-slate-950/90 border border-slate-800">
+                <div className="flex items-center justify-between text-xs text-slate-300">
                   <span>Humidity</span>
-                  <Droplets className="w-3.5 h-3.5 text-amber-500" />
+                  <Droplets className="w-4 h-4 text-amber-400" />
                 </div>
-                <div className="text-lg font-bold font-mono tabular-nums text-slate-100 mt-1">
+                <div className="text-lg font-bold font-mono tabular-nums text-white mt-1">
                   {weather.relativeHumidityPct}%
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-slate-950/90 border border-slate-800/90">
-                <div className="flex items-center justify-between text-xs text-slate-400">
+              <div className="p-3.5 rounded-xl bg-slate-950/90 border border-slate-800">
+                <div className="flex items-center justify-between text-xs text-slate-300">
                   <span>Pressure</span>
-                  <Gauge className="w-3.5 h-3.5 text-amber-500" />
+                  <Gauge className="w-4 h-4 text-amber-400" />
                 </div>
-                <div className="text-lg font-bold font-mono tabular-nums text-slate-100 mt-1">
+                <div className="text-lg font-bold font-mono tabular-nums text-white mt-1">
                   {weather.surfacePressureHpa.toFixed(1)} hPa
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-slate-950/90 border border-slate-800/90">
-                <div className="flex items-center justify-between text-xs text-slate-400">
+              <div className="p-3.5 rounded-xl bg-slate-950/90 border border-slate-800">
+                <div className="flex items-center justify-between text-xs text-slate-300">
                   <span>Wind Speed</span>
-                  <Wind className="w-3.5 h-3.5 text-amber-500" />
+                  <Wind className="w-4 h-4 text-amber-400" />
                 </div>
-                <div className="text-lg font-bold font-mono tabular-nums text-slate-100 mt-1">
+                <div className="text-lg font-bold font-mono tabular-nums text-white mt-1">
                   {weather.windSpeedKmh.toFixed(1)} km/h
                 </div>
               </div>
 
-              <div className="col-span-2 sm:col-span-1 p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/40">
-                <div className="text-xs text-amber-300 font-medium">Blast Moisture</div>
+              <div className="sm:col-span-2 md:col-span-1 p-3.5 rounded-xl bg-amber-400/10 border border-amber-400/50">
+                <div className="text-xs text-amber-300 font-semibold">Blast Moisture</div>
                 <div className="text-lg font-bold font-mono tabular-nums text-amber-400 mt-1">
                   {weather.blastMoistureGPerNm3.toFixed(1)} g/Nm³
                 </div>
@@ -217,14 +228,14 @@ export const PlantWeatherTelemetry: React.FC<PlantWeatherTelemetryProps> = ({
                 <button
                   type="button"
                   onClick={handleApplyToRaft}
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-400 hover:text-amber-300 cursor-pointer"
+                  className="min-h-[44px] inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 border border-amber-400/50 text-xs font-semibold text-amber-400 hover:bg-amber-400 hover:text-slate-950 transition-colors cursor-pointer"
                 >
                   <span>
                     {appliedToast
                       ? `Synced ${weather.blastMoistureGPerNm3} g/Nm³ to RAFT Calculator!`
                       : `Apply ${weather.blastMoistureGPerNm3} g/Nm³ Moisture to RAFT Calculator`}
                   </span>
-                  <ArrowDownRight className="w-3.5 h-3.5" />
+                  <ArrowDownRight className="w-4 h-4" />
                 </button>
               </div>
             )}
