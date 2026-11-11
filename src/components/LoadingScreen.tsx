@@ -19,15 +19,13 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({
 
   useEffect(() => {
     let rafId: number;
-    const duration = 2200; // 2.2s smooth eased progress
+    const duration = 10000; // 10 seconds loading animation
     const startTime = performance.now();
 
     const tick = (now: number) => {
       const elapsed = now - startTime;
       const t = Math.min(elapsed / duration, 1);
-      // Smooth cubic ease-out curve
-      const eased = 1 - Math.pow(1 - t, 3);
-      const currentProgress = Math.round(eased * 100);
+      const currentProgress = Math.round(t * 100);
       setProgress(currentProgress);
 
       if (t < 1) {
@@ -47,7 +45,7 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({
           onFinish();
         }, 650);
         return () => clearTimeout(doneTimer);
-      }, 320);
+      }, 300);
 
       return () => clearTimeout(holdTimer);
     }
@@ -67,8 +65,9 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({
   const strokeDashoffset = circumference - (progress / 100) * circumference;
 
   const getStatusLabel = (pct: number) => {
-    if (pct < 35) return 'INITIALIZING PORTFOLIO';
-    if (pct < 75) return 'LOADING CAREER TIMELINE & BENCHMARKS';
+    if (pct < 25) return 'INITIALIZING PORTFOLIO';
+    if (pct < 50) return 'LOADING 20+ YRS CAREER TIMELINE';
+    if (pct < 75) return 'CALIBRATING 350 M³ BF BENCHMARKS';
     if (pct < 100) return 'SYNCHRONIZING EXECUTIVE INTERFACE';
     return 'READY';
   };
